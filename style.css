@@ -1,0 +1,1106 @@
+/* ============================================================
+   Gian-Portfolio — style.css
+   Vanilla CSS recreation of the original React + Tailwind v4
+   project. Every value below was extracted from the original
+   source (src/index.css and the Tailwind default theme); oklch()
+   shadcn tokens were converted to hex equivalents.
+
+   TABLE OF CONTENTS
+   1.  Design tokens (light theme)
+   2.  Dark theme overrides
+   3.  Base / reset
+   4.  Animated background (ferrofluid stand-in)
+   5.  Buttons
+   6.  Badges
+   7.  Header / hamburger / theme toggle / navigation drawer
+   8.  Hero
+   9.  About
+   10. Skills
+   11. Projects (cards)
+   12. Contact + form
+   13. Footer
+   14. Media queries (tablet 48rem, desktop 64rem)
+   15. Reduced motion
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. DESIGN TOKENS (light theme)
+   Converted from oklch() values in the original index.css.
+   ------------------------------------------------------------ */
+:root {
+  /* Core shadcn palette (light) */
+  --background: #ffffff;
+  --foreground: #232326;
+  --card: #ffffff;
+  --card-foreground: #232326;
+  --popover: #ffffff;
+  --popover-foreground: #232326;
+  --primary: #a929ee;
+  --primary-foreground: #faf9fc;
+  --secondary: #f2f2f3;
+  --secondary-foreground: #303036;
+  --muted: #f3f0f5;
+  --muted-foreground: #776b83;
+  --accent: #f3f0f5;
+  --accent-foreground: #322a36;
+  --destructive: #e8403c;
+  --border: #e8e6ea;
+  --input: #e8e6ea;
+  --ring: #b9adbf;
+
+  /* Extra tokens derived from Tailwind's default purple scale */
+  --purple-200: #e9d5ff; /* hero role text          */
+  --purple-300: #d8b4fe; /* hero badge text base    */
+  --purple-400: #c084fc;
+  --purple-800: #6b21a8; /* hero badge background   */
+  --purple-950: #3b0764; /* hero badge border       */
+  --purple-shadow: rgba(168, 85, 247, 0.5); /* shadow-purple-500/50 */
+
+  /* Certification badge colors (yellow / blue, light variants) */
+  --badge-yellow-bg: #fefce8;
+  --badge-yellow-text: #a16207;
+  --badge-blue-bg: #eff6ff;
+  --badge-blue-text: #1d4ed8;
+
+  /* Form success color (not in the original UI; approximated) */
+  --success: #166534;
+
+  /* Card hairline ring: ring-foreground/10 */
+  --card-ring: rgba(35, 35, 38, 0.1);
+
+  /* Radii: --radius 0.875rem, scaled like the original theme */
+  --radius: 0.875rem;
+  --radius-xs: 0.525rem; /* --radius * 0.6 */
+  --radius-md: 0.7rem; /* --radius * 0.8 */
+  --radius-lg: 0.875rem; /* --radius       */
+  --radius-xl: 1.225rem; /* --radius * 1.4 */
+  --radius-4xl: 2.275rem; /* --radius * 2.6 */
+
+  /* Fonts (original loads Montserrat Variable from Fontsource) */
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Arial, sans-serif;
+}
+
+/* ------------------------------------------------------------
+   2. DARK THEME OVERRIDES
+   The original toggles a .dark class on <html>; here we toggle
+   data-theme="dark" (script.js).
+   ------------------------------------------------------------ */
+[data-theme="dark"] {
+  --background: #232326;
+  --foreground: #fafafa;
+  --card: #322a36;
+  --card-foreground: #fafafa;
+  --popover: #322a36;
+  --popover-foreground: #fafafa;
+  --primary: #8a29d2;
+  --primary-foreground: #faf9fc;
+  --secondary: #3e3f46;
+  --secondary-foreground: #fafafa;
+  --muted: #3a2f3e;
+  --muted-foreground: #776b83;
+  --accent: #3a2f3e;
+  --accent-foreground: #fafafa;
+  --destructive: #ff6b6c;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.15);
+  --ring: #776b83;
+
+  --badge-yellow-bg: #422006;
+  --badge-yellow-text: #fde047;
+  --badge-blue-bg: #172554;
+  --badge-blue-text: #93c5fd;
+  --success: #4ade80;
+  --card-ring: rgba(250, 250, 250, 0.1);
+}
+
+/* ------------------------------------------------------------
+   3. BASE / RESET
+   ------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  overflow-x: hidden; /* matches the original to stop sideways scrolling */
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Always show a visible focus ring for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* The hidden attribute must always win over other display rules */
+[hidden] {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------
+   4. ANIMATED BACKGROUND
+   The original renders a WebGL "Ferrofluid" shader with the
+   palette #4a0260 / #350074 / #19069a flowing downward. This is
+   a CSS-only stand-in: a fixed purple gradient with a soft
+   shimmering highlight that slowly drifts.
+   ------------------------------------------------------------ */
+.site-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, #4a0260 0%, #350074 50%, #19069a 100%);
+  overflow: hidden;
+}
+
+/* Soft light band that mimics the fluid's glowing rims */
+.site-background::before {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  background: radial-gradient(
+    60% 45% at 50% 18%,
+    rgba(255, 255, 255, 0.22),
+    rgba(255, 255, 255, 0) 60%
+  );
+  filter: blur(28px);
+  animation: fluid-drift 14s ease-in-out infinite alternate;
+}
+
+/* Dark blob shapes that drift like the ferrofluid peaks */
+.site-background::after {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  background:
+    radial-gradient(28% 22% at 22% 78%, rgba(25, 6, 154, 0.55), transparent 70%),
+    radial-gradient(24% 20% at 78% 30%, rgba(74, 2, 96, 0.65), transparent 70%),
+    radial-gradient(20% 18% at 55% 55%, rgba(53, 0, 116, 0.5), transparent 70%);
+  filter: blur(34px);
+  animation: fluid-drift 18s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes fluid-drift {
+  from {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(3%, 2%, 0) scale(1.08);
+  }
+}
+
+/* ------------------------------------------------------------
+   5. BUTTONS
+   Rebuilt from the shadcn "button" variants used by the site.
+   ------------------------------------------------------------ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.625rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: all 150ms ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Icons inside buttons keep a fixed size */
+.btn .icon,
+.btn img.icon {
+  width: 1rem;
+  height: 1rem;
+  pointer-events: none;
+}
+
+.btn-lg {
+  padding: 0.625rem 1rem;
+  font-size: 1rem;
+}
+
+.btn-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border-radius: var(--radius-xs);
+}
+
+/* The GitHub icon inside the card's square button is larger (size-6) */
+.btn-icon img.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Solid primary button ("Check Live Site", "View Projects", ...) */
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.btn-primary:hover {
+  background-color: color-mix(in srgb, var(--primary) 80%, transparent);
+}
+
+/* Outlined button ("Contact Me", the GitHub icon button) */
+.btn-outline {
+  border-color: var(--border);
+  background-color: var(--background);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-xs */
+}
+
+.btn-outline:hover {
+  background-color: var(--muted);
+}
+
+[data-theme="dark"] .btn-outline {
+  border-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ------------------------------------------------------------
+   6. BADGES
+   ------------------------------------------------------------ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: 1.25rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-4xl); /* fully rounded ends */
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.badge-secondary {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.badge-in-progress {
+  background-color: var(--badge-yellow-bg);
+  color: var(--badge-yellow-text);
+}
+
+.badge-certification {
+  background-color: var(--badge-blue-bg);
+  color: var(--badge-blue-text);
+}
+
+/* ------------------------------------------------------------
+   7. HEADER / HAMBURGER / THEME TOGGLE / NAVIGATION DRAWER
+   ------------------------------------------------------------ */
+
+/* The header itself is invisible; its children are fixed. */
+.site-header {
+  font-size: 1rem;
+}
+
+/* Hamburger button — fixed top-left, like the original nav */
+.nav-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: none;
+  border-radius: var(--radius-md);
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  cursor: pointer;
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.nav-toggle:hover {
+  background-color: color-mix(in srgb, var(--primary) 80%, transparent);
+}
+
+/* The three white bars of the hamburger icon */
+.nav-toggle-bar {
+  width: 1.1rem;
+  height: 2px;
+  border-radius: 1px;
+  background-color: currentColor;
+}
+
+/* Theme toggle — fixed next to the hamburger */
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 4.25rem;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.theme-toggle:hover {
+  background-color: var(--muted);
+}
+
+/* Show only the icon for the theme you would switch TO */
+.theme-toggle-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  display: none;
+}
+
+[data-theme="dark"] .theme-toggle-icon-sun,
+[data-theme="light"] .theme-toggle-icon-moon {
+  display: block;
+}
+
+/* Slide-in drawer (the "Sheet" from the original design) */
+.site-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: min(24rem, 75vw);
+  height: 100vh;
+  padding: 1rem;
+  background-color: var(--popover);
+  color: var(--popover-foreground);
+  border-left: 1px solid var(--border);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  transform: translateX(100%); /* hidden off-screen by default */
+  visibility: hidden;
+  transition: transform 200ms ease-in-out, visibility 200ms;
+}
+
+.site-nav.open {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+/* Close (X) button in the drawer's top-right corner */
+.nav-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: var(--radius-xs);
+  background-color: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.nav-close:hover {
+  background-color: var(--muted);
+}
+
+.nav-close svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Brand name at the top of the drawer */
+.nav-brand {
+  padding-right: 2.5rem; /* keep clear of the close button */
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+/* Thin divider lines (the original "Separator" component) */
+.nav-separator {
+  width: 100%;
+  height: 1px;
+  border: none;
+  background-color: var(--border);
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 0 1rem;
+}
+
+/* Ghost-style nav links with inline icons */
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.625rem;
+  border-radius: var(--radius-md);
+  font-size: 1.125rem;
+  transition: background-color 150ms ease;
+}
+
+.nav-link:hover {
+  background-color: var(--muted);
+}
+
+/* Generic inline icon size (SVGs inherit currentColor) */
+.icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+/* Footer block pinned to the bottom of the drawer */
+.nav-footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+/* Transparent overlay behind the open drawer */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 150ms ease, visibility 150ms;
+}
+
+.nav-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ------------------------------------------------------------
+   8. HERO
+   ------------------------------------------------------------ */
+.hero {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.25rem;
+  min-height: 100vh; /* full-screen intro, like the original */
+  min-height: 100svh;
+  padding: 3rem 1.25rem 2rem;
+}
+
+.hero-badge {
+  align-self: flex-start;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--purple-950);
+  border-radius: var(--radius-md);
+  background-color: rgba(107, 33, 168, 0.25);
+  color: rgba(192, 132, 252, 0.75);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.hero-name {
+  font-size: 3rem; /* text-5xl */
+  font-weight: 800;
+  line-height: 1;
+}
+
+.hero-role {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 600;
+  color: var(--purple-200);
+}
+
+.hero-tagline {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.hero-description {
+  font-size: 1rem;
+}
+
+/* Social icon row */
+.hero-socials,
+.footer-socials {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.social-link {
+  display: inline-flex;
+  padding: 0.125rem;
+  border-radius: 0.25rem;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.social-link:hover {
+  opacity: 0.75;
+  transform: translateY(-2px);
+}
+
+.icon-lg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* CTA button stack */
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ------------------------------------------------------------
+   9. ABOUT
+   ------------------------------------------------------------ */
+.about {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+}
+
+.about-image-wrapper {
+  width: 100%;
+  height: 16rem; /* h-64 */
+}
+
+.about-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-xl); /* rounded-2xl */
+  box-shadow: 0 4px 6px -1px var(--purple-shadow),
+    0 2px 4px -2px var(--purple-shadow); /* shadow-purple-500/50 */
+}
+
+.about-text {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Shared section heading style (text-3xl bold) */
+.section-title {
+  font-size: 1.875rem;
+  font-weight: 800;
+  line-height: 2.25rem;
+}
+
+.body-text {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.about-subheading {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------
+   10. SKILLS
+   ------------------------------------------------------------ */
+.skills {
+  position: relative;
+  z-index: 10;
+  padding: 0.75rem 1.25rem;
+}
+
+.skills-subheading {
+  padding-top: 0.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.skills-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+}
+
+.skill-icon {
+  width: 4.5rem; /* size-18 */
+  height: 4.5rem;
+}
+
+/* Devicons that ship as black marks need inverting on dark UIs
+   (the original applies "invert brightness-0" to these too) */
+.icon-invert {
+  filter: invert(1) brightness(0);
+}
+
+/* ------------------------------------------------------------
+   11. PROJECTS (cards)
+   ------------------------------------------------------------ */
+.projects {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 0.75rem 1.25rem;
+}
+
+.projects-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* the original card spacing token */
+  padding: 0 0 1.5rem;
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 0 0 1px var(--card-ring), 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.card-image {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0 1.5rem;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.card-description {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--muted-foreground);
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1.5rem;
+}
+
+/* ------------------------------------------------------------
+   12. CONTACT + FORM
+   ------------------------------------------------------------ */
+.contact {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+}
+
+.contact-title {
+  font-size: 1.875rem; /* text-3xl on mobile */
+  font-weight: 800;
+  line-height: 2.25rem;
+}
+
+.contact-text {
+  font-size: 1rem;
+}
+
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* The email CTA is noticeably larger than other buttons */
+.btn-email {
+  padding: 1.5rem 2.5rem;
+  font-size: 1.125rem;
+}
+
+.btn-email .icon-lg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+/* SAMPLE: contact form styling (added for the assignment) */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.5rem;
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 0 0 1px var(--card-ring), 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  text-align: left;
+}
+
+.form-field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.form-field input,
+.form-field textarea {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-md);
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 0.875rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 25%, transparent);
+}
+
+/* Invalid fields get the destructive color */
+.form-field input.invalid,
+.form-field textarea.invalid {
+  border-color: var(--destructive);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
+}
+
+.form-error {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--destructive);
+}
+
+.form-success {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--success);
+  text-align: center;
+}
+
+/* ------------------------------------------------------------
+   13. FOOTER
+   ------------------------------------------------------------ */
+.site-footer {
+  position: relative;
+  z-index: 10;
+  margin: 0.75rem 0;
+  padding: 0.75rem 0;
+  text-align: center;
+}
+
+.footer-socials {
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* Shared small footer text */
+.footer-note {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* ------------------------------------------------------------
+   14. MEDIA QUERIES
+   Breakpoints match Tailwind defaults: md = 48rem, lg = 64rem.
+   ------------------------------------------------------------ */
+
+/* Tablet and up (md) — the original's md: variants */
+@media (min-width: 48rem) {
+  /* Hero: center everything horizontally */
+  .hero {
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-badge {
+    align-self: center;
+  }
+
+  .hero-name {
+    font-size: 3.75rem; /* text-6xl */
+    line-height: 1;
+    text-align: center;
+  }
+
+  .hero-role {
+    font-size: 2.25rem; /* text-4xl */
+  }
+
+  .hero-tagline {
+    font-size: 1.5rem; /* md:text-2xl */
+  }
+
+  .hero-description {
+    padding: 0 0.75rem;
+    font-size: 1.5rem; /* md:text-2xl */
+    text-align: center;
+  }
+
+  .hero-actions {
+    flex-direction: row;
+  }
+
+  /* Social icons grow slightly on bigger screens (md:w-7 md:h-7) */
+  .icon-lg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  /* About: two-column grid (photo | text) */
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  .about-image-wrapper {
+    height: 100%;
+  }
+
+  .about-text {
+    gap: 0.5rem;
+  }
+
+  .section-title {
+    font-size: 2.25rem; /* text-4xl */
+    line-height: 2.5rem;
+  }
+
+  .about-subheading {
+    font-size: 1.25rem; /* md:text-xl */
+  }
+
+  /* Skills: icon sizes and centered subheadings */
+  .skill-icon {
+    width: 6rem; /* size-24 */
+    height: 6rem;
+  }
+
+  .skills-subheading {
+    text-align: center;
+    font-size: 1.5rem; /* md:text-2xl */
+  }
+
+  /* Projects: cards flow into rows, fixed width like w-sm */
+  .projects-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    width: 24rem;
+  }
+
+  /* Contact: centered; min-height keeps the original's tall
+     centered look while letting the section grow to fit the form */
+  .contact {
+    min-height: 14rem; /* md:h-56 */
+    justify-content: center;
+    text-align: center;
+  }
+
+  .contact-title {
+    font-size: 3rem; /* md:text-5xl */
+    text-align: center;
+  }
+
+  .contact-text {
+    padding: 0 2rem;
+    font-size: 1.125rem; /* md:text-lg */
+    text-align: center;
+  }
+
+  .contact-actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  /* Center the sample form below the contact copy */
+  .contact-form {
+    max-width: 36rem;
+    margin: 0 auto;
+  }
+}
+
+/* Desktop and up (lg) — the original's lg: variants */
+@media (min-width: 64rem) {
+  .hero-name {
+    font-size: 6rem; /* lg:text-8xl */
+  }
+
+  /* About photo keeps a fixed width and is centered */
+  .about {
+    padding: 1.25rem 2rem; /* lg:px-8 */
+  }
+
+  .about-image-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .about-photo {
+    width: 36rem; /* lg:w-xl */
+  }
+
+  .about-text {
+    justify-content: center;
+  }
+
+  .body-text {
+    font-size: 1.125rem; /* lg:text-lg */
+  }
+
+  .about-subheading {
+    font-size: 1.5rem; /* lg:text-2xl */
+  }
+
+  .skill-icon {
+    width: 7rem; /* size-28 */
+    height: 7rem;
+  }
+
+  .skills-row {
+    gap: 1.25rem; /* lg:gap-5 */
+  }
+
+  .projects {
+    padding: 0.75rem 2rem;
+  }
+
+  .projects-grid {
+    justify-content: center;
+    gap: 2rem; /* lg:gap-8 */
+  }
+
+  .section-title {
+    font-size: 3rem; /* lg:text-5xl */
+    line-height: 1;
+  }
+
+  .projects .section-title,
+  .skills .section-title {
+    text-align: center;
+  }
+
+  /* Contact keeps its tall centered look and spreads its content */
+  .contact {
+    min-height: 24rem; /* lg:h-96 */
+    justify-content: space-evenly;
+  }
+
+  .contact-title {
+    font-size: 4.5rem; /* lg:text-7xl */
+  }
+
+  .contact-text {
+    font-size: 1.25rem; /* lg:text-xl */
+  }
+
+  .btn-email {
+    padding: 1.5rem 2.5rem; /* lg:px-10 lg:py-6 */
+    font-size: 1.125rem; /* lg:text-lg */
+  }
+}
+
+/* ------------------------------------------------------------
+   15. REDUCED MOTION
+   Respect users who prefer less animation.
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .site-background::before,
+  .site-background::after {
+    animation: none;
+  }
+
+  .btn,
+  .nav-toggle,
+  .theme-toggle,
+  .site-nav,
+  .nav-overlay,
+  .social-link {
+    transition: none;
+  }
+}
