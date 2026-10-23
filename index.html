@@ -1,615 +1,114 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
   <head>
-    <!-- ============================================
-         Gian-Portfolio — vanilla HTML/CSS/JS version
-         Recreated from the original React + Tailwind project.
-         No frameworks, no build step: open index.html to run.
-         ============================================ -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Portfolio of Gian Raphael Baldovino, a fullstack developer and Information Technology student based in the Philippines."
-    />
+    <meta name="description" content="Gian Raphael Baldovino — Fullstack Developer based in the Philippines." />
     <title>Gian-Portfolio</title>
-
-    <!-- Google Fonts: Montserrat (the original project loads Montserrat Variable) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Site styles (all styling lives here — no inline styles in this file) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
-
-    <!-- Pure HTML/CSS — no JavaScript -->
-
   </head>
 
   <body>
-    <!-- Fixed animated gradient backdrop (stands in for the WebGL "Ferrofluid" background) -->
-    <div class="site-background" aria-hidden="true"></div>
-
-    <!-- ============================================
-         HEADER / NAVIGATION
-         A fixed menu button (top-left) opens a slide-in
-         drawer containing the brand name and anchor links.
-         ============================================ -->
+    <!-- ===== HEADER / NAVIGATION ===== -->
     <header class="site-header">
-      <!-- Hamburger button: toggles the navigation drawer on mobile/desktop -->
-      <button
-        type="button"
-        class="nav-toggle"
-        id="nav-toggle"
-        aria-label="Open navigation menu"
-        aria-expanded="false"
-        aria-controls="site-nav"
-      >
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-        <span class="nav-toggle-bar"></span>
-      </button>
-
-      <!-- Theme toggle removed — this is now pure HTML/CSS only -->
-      <button
-        type="button"
-        class="theme-toggle"
-        id="theme-toggle"
-        aria-label="Switch to light theme"
-        aria-pressed="true"
-      >
-        <!-- Sun icon (shown while the dark theme is active) -->
-        <svg
-          class="theme-toggle-icon theme-toggle-icon-sun"
-          viewBox="0 0 256 256"
-          fill="currentColor"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path
-            d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"
-          />
-        </svg>
-        <!-- Moon icon (shown while the light theme is active) -->
-        <svg
-          class="theme-toggle-icon theme-toggle-icon-moon"
-          viewBox="0 0 256 256"
-          fill="currentColor"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <path
-            d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"
-          />
-        </svg>
-      </button>
-
-      <!-- Slide-in navigation drawer (the "Sheet" from the original design) -->
-      <nav class="site-nav" id="site-nav" aria-label="Main navigation">
-        <!-- Close button (matches the X in the top-right of the original sheet) -->
-        <button
-          type="button"
-          class="nav-close"
-          id="nav-close"
-          aria-label="Close navigation menu"
-        >
-          <svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-            <path
-              d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
-            />
-          </svg>
-        </button>
-
-        <!-- Brand name (also links back to the top of the page) -->
-        <a href="#hero" class="nav-brand" data-scroll-link>gian-dev</a>
-        <hr class="nav-separator" />
-
-        <!-- Anchor links to every section of the page -->
-        <ul class="nav-links">
-          <li>
-            <a href="#hero" class="nav-link" data-scroll-link>
-              <svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-                <path
-                  d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"
-                />
-              </svg>
-              <span>Home</span>
-            </a>
-          </li>
-          <li>
-            <a href="#about" class="nav-link" data-scroll-link>
-              <svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-                <path
-                  d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"
-                />
-              </svg>
-              <span>About</span>
-            </a>
-          </li>
-          <li>
-            <a href="#skills" class="nav-link" data-scroll-link>
-              <svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-                <path
-                  d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,1,0,0-12.29ZM162.73,32.48a8,8,0,0,0-10.25,4.79l-64,176a8,8,0,0,0,4.79,10.26A8.14,8.14,0,0,0,96,224a8,8,0,0,0,7.52-5.27l64-176A8,8,0,0,0,162.73,32.48Z"
-                />
-              </svg>
-              <span>Skills</span>
-            </a>
-          </li>
-          <li>
-            <a href="#projects" class="nav-link" data-scroll-link>
-              <svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-                <path
-                  d="M216,56H176V48a24,24,0,0,0-24-24H104A24,24,0,0,0,80,48v8H40A16,16,0,0,0,24,72V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V72A16,16,0,0,0,216,56ZM96,48a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96ZM216,72v41.61A184,184,0,0,1,128,136a184.07,184.07,0,0,1-88-22.38V72Zm0,128H40V131.64A200.19,200.19,0,0,0,128,152a200.25,200.25,0,0,0,88-20.37V200ZM104,112a8,8,0,0,1,8-8h32a8,8,0,0,1,0,16H112A8,8,0,0,1,104,112Z"
-                />
-              </svg>
-              <span>Projects</span>
-            </a>
-          </li>
-          <li>
-            <a href="#contact" class="nav-link" data-scroll-link>
-              <svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-                <path
-                  d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"
-                />
-              </svg>
-              <span>Contact</span>
-            </a>
-          </li>
-        </ul>
-
-        <!-- Drawer footer (matches the original sheet footer) -->
-        <div class="nav-footer">
-          <hr class="nav-separator" />
-          <p class="footer-note">&copy; 2026 Gian Raphael Baldovino</p>
-          <p class="footer-note">Built with HTML, CSS &amp; JavaScript</p>
-        </div>
-      </nav>
-
-      <!-- Transparent overlay shown behind the open drawer -->
-      <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+      <div class="header-inner">
+        <a href="#hero" class="brand">Gian</a>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#hero" class="nav-link">Home</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#services" class="nav-link">Services</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </nav>
+      </div>
     </header>
 
-    <main>
-      <!-- ============================================
-           HERO (also serves as the top of the page)
-           ============================================ -->
-      <section id="hero" class="hero">
-        <p class="hero-badge">Open to Opportunities</p>
-        <h1 class="hero-name">Gian Raphael Baldovino</h1>
-        <p class="hero-role">Fullstack Developer</p>
-        <p class="hero-tagline">I build things that solve problems.</p>
-        <p class="hero-description">
-          Information Technology student based in the Philippines, focused on building web
-          applications
+    <!-- ===== HERO SECTION ===== -->
+    <section id="hero" class="hero">
+      <h1 class="hero-title">Gian Raphael Baldovino</h1>
+      <p class="hero-role">Fullstack Developer</p>
+      <p class="hero-tagline">I build things that solve problems.</p>
+      <p class="hero-description">
+        Information Technology student based in the Philippines, focused on building web applications.
+      </p>
+      <a href="#services" class="btn btn-primary">View My Services</a>
+    </section>
+
+    <!-- ===== ABOUT SECTION ===== -->
+    <section id="about" class="about">
+      <div class="about-text">
+        <h2 class="section-title">About Me</h2>
+        <p class="body-text">
+          Hey, I'm Gian, 19, based in Bulacan, Philippines, and fully committed to building a career in tech.
         </p>
-
-        <!-- Social media links -->
-        <ul class="hero-socials">
-          <li>
-            <a
-              href="https://www.facebook.com/Gian.Raphael.Baldovino"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-link"
-              aria-label="Facebook profile"
-            >
-              <svg class="icon icon-lg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-                <path
-                  d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,191.63V152h24a8,8,0,0,0,0-16H136V112a16,16,0,0,1,16-16h16a8,8,0,0,0,0-16H152a32,32,0,0,0-32,32v24H96a8,8,0,0,0,0,16h24v63.63a88,88,0,1,1,16,0Z"
-                />
-              </svg>
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://www.linkedin.com/in/gian-raphael-654516318/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-link"
-              aria-label="LinkedIn profile"
-            >
-              <svg class="icon icon-lg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-                <path
-                  d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"
-                />
-              </svg>
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://github.com/ralph-16"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-link"
-              aria-label="GitHub profile"
-            >
-              <svg class="icon icon-lg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-                <path
-                  d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"
-                />
-              </svg>
-            </a>
-          </li>
-        </ul>
-
-        <!-- Call-to-action buttons -->
-        <div class="hero-actions">
-          <a href="#projects" class="btn btn-primary btn-lg" data-scroll-link>
-            <svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-              <path
-                d="M216,56H176V48a24,24,0,0,0-24-24H104A24,24,0,0,0,80,48v8H40A16,16,0,0,0,24,72V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V72A16,16,0,0,0,216,56ZM96,48a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96ZM216,72v41.61A184,184,0,0,1,128,136a184.07,184.07,0,0,1-88-22.38V72Zm0,128H40V131.64A200.19,200.19,0,0,0,128,152a200.25,200.25,0,0,0,88-20.37V200ZM104,112a8,8,0,0,1,8-8h32a8,8,0,0,1,0,16H112A8,8,0,0,1,104,112Z"
-              />
-            </svg>
-            View Projects
-          </a>
-          <a href="#contact" class="btn btn-outline btn-lg" data-scroll-link>
-            <svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-              <path
-                d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"
-              />
-            </svg>
-            Contact Me
-          </a>
-        </div>
-      </section>
-
-      <!-- ============================================
-           ABOUT ME
-           ============================================ -->
-      <section id="about" class="about">
-        <div class="about-image-wrapper">
-          <img
-            src="images/me_picture.JPG"
-            alt="Portrait photo of Gian Raphael Baldovino"
-            class="about-photo"
-            width="576"
-            height="768"
-          />
-        </div>
-        <div class="about-text">
-          <h2 class="section-title">About Me</h2>
-          <p class="body-text">
-            Hey, I'm Gian, 19, based in Bulacan, Philippines, and fully committed to building a
-            career in tech.
-          </p>
-          <h3 class="about-subheading">What am I focused on?</h3>
-          <p class="body-text">
-            I'm currently open to internships and freelance work. Outside of that I'm building real
-            projects, sharpening my DSA skills, and learning in public.
-          </p>
-          <h3 class="about-subheading">What drives me?</h3>
-          <p class="body-text">
-            I'm drawn to tech because it never stops evolving. The complexity doesn't intimidate me,
-            it's actually what keeps me hooked. I've always been someone who enjoys breaking down
-            hard problems and figuring things out.
-          </p>
-        </div>
-      </section>
-
-      <!-- ============================================
-           SKILLS
-           Icon images: devicons (MIT licensed), stored
-           locally in images/devicon so the site works offline.
-           ============================================ -->
-      <section id="skills" class="skills">
-        <h2 class="section-title">Skills</h2>
-
-        <h3 class="skills-subheading">Programming Languages</h3>
-        <ul class="skills-row">
-          <li><img class="skill-icon" src="images/devicon/javascript-original.svg" alt="JavaScript" /></li>
-          <li><img class="skill-icon" src="images/devicon/typescript-original.svg" alt="TypeScript" /></li>
-          <li><img class="skill-icon" src="images/devicon/python-original.svg" alt="Python" /></li>
-          <li><img class="skill-icon" src="images/devicon/java-original.svg" alt="Java" /></li>
-          <li><img class="skill-icon" src="images/devicon/html5-original.svg" alt="HTML" /></li>
-          <li><img class="skill-icon" src="images/devicon/css3-original.svg" alt="CSS" /></li>
-          <li><img class="skill-icon" src="images/devicon/php-original.svg" alt="PHP" /></li>
-        </ul>
-
-        <h3 class="skills-subheading">Frameworks &amp; Libraries</h3>
-        <ul class="skills-row">
-          <li><img class="skill-icon" src="images/devicon/react-original.svg" alt="React" /></li>
-          <li><img class="skill-icon" src="images/devicon/redux-original.svg" alt="Redux" /></li>
-          <li><img class="skill-icon" src="images/devicon/bootstrap-original.svg" alt="Bootstrap" /></li>
-          <li><img class="skill-icon" src="images/devicon/tailwindcss-original.svg" alt="Tailwind CSS" /></li>
-          <li><img class="skill-icon" src="images/devicon/jquery-original.svg" alt="jQuery" /></li>
-        </ul>
-
-        <h3 class="skills-subheading">Database &amp; Backend</h3>
-        <ul class="skills-row">
-          <li><img class="skill-icon" src="images/devicon/mysql-original-wordmark.svg" alt="MySQL" /></li>
-          <li><img class="skill-icon" src="images/devicon/postgresql-plain-wordmark.svg" alt="PostgreSQL" /></li>
-          <li><img class="skill-icon" src="images/devicon/supabase-original.svg" alt="Supabase" /></li>
-          <li><img class="skill-icon icon-invert" src="images/devicon/express-original-wordmark.svg" alt="Express" /></li>
-        </ul>
-
-        <h3 class="skills-subheading">Tools</h3>
-        <ul class="skills-row">
-          <li><img class="skill-icon" src="images/devicon/git-original.svg" alt="Git" /></li>
-          <li><img class="skill-icon icon-invert" src="images/devicon/github-original.svg" alt="GitHub" /></li>
-          <li><img class="skill-icon" src="images/devicon/vscode-original.svg" alt="Visual Studio Code" /></li>
-          <li><img class="skill-icon icon-invert" src="images/devicon/vercel-original.svg" alt="Vercel" /></li>
-        </ul>
-      </section>
-
-      <!-- ============================================
-           PROJECTS
-           ============================================ -->
-      <section id="projects" class="projects">
-        <h2 class="section-title">Projects</h2>
-
-        <div class="projects-grid">
-          <!-- Project 1: Daloy -->
-          <article class="card">
-            <img
-              class="card-image"
-              src="images/daloy-project-draft.png"
-              alt="Draft design of the Daloy productivity app"
-            />
-            <div class="card-header">
-              <h3 class="card-title">Daloy</h3>
-              <p class="card-badges">
-                <span class="badge badge-secondary">Personal Project</span>
-                <span class="badge badge-in-progress">In Progress</span>
-              </p>
-              <p class="card-description">
-                An all-in-one productivity app currently being built with Next.js and Firebase
-                (Pomodoro timer, habit tracker, and to-do list) unified in a single clean workspace.
-              </p>
-            </div>
-            <div class="card-footer">
-              <a
-                href="https://github.com/ralph-16/daloy-project"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-outline btn-icon"
-                aria-label="View the Daloy project on GitHub"
-              >
-                <img
-                  class="icon icon-invert"
-                  src="images/devicon/github-original.svg"
-                  alt=""
-                  aria-hidden="true"
-                />
-              </a>
-              <a
-                href="https://daloy-project.vercel.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-primary btn-lg"
-              >
-                Check Live Site
-              </a>
-            </div>
-          </article>
-
-          <!-- Project 2: Responsive Web Design certification -->
-          <article class="card">
-            <img
-              class="card-image"
-              src="images/responsive_web_cert.png"
-              alt="freeCodeCamp Responsive Web Design certificate"
-            />
-            <div class="card-header">
-              <h3 class="card-title">Responsive Web Design</h3>
-              <p class="card-badges">
-                <span class="badge badge-certification">freeCodeCamp Certification</span>
-              </p>
-              <p class="card-description">
-                Projects built while learning HTML, CSS, Flexbox, and responsive design
-                fundamentals.
-              </p>
-            </div>
-            <div class="card-footer">
-              <a
-                href="https://www.freecodecamp.org/certification/ralphhh/responsive-web-design"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-primary btn-lg"
-              >
-                View Certification
-              </a>
-            </div>
-          </article>
-
-          <!-- Project 3: JavaScript Algorithms and Data Structures certification -->
-          <article class="card">
-            <img
-              class="card-image"
-              src="images/js_dsa_cert.png"
-              alt="freeCodeCamp JavaScript Algorithms and Data Structures certificate"
-            />
-            <div class="card-header">
-              <h3 class="card-title">JavaScript Algorithms and Data Structures</h3>
-              <p class="card-badges">
-                <span class="badge badge-certification">freeCodeCamp Certification</span>
-              </p>
-              <p class="card-description">
-                Projects built while learning core JavaScript, algorithms, and data structures.
-              </p>
-            </div>
-            <div class="card-footer">
-              <a
-                href="https://www.freecodecamp.org/certification/ralphhh/javascript-algorithms-and-data-structures-v8"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-primary btn-lg"
-              >
-                View Certification
-              </a>
-            </div>
-          </article>
-
-          <!-- Project 4: Front-End Development Libraries certification -->
-          <article class="card">
-            <img
-              class="card-image"
-              src="images/fd_dev_cert.png"
-              alt="freeCodeCamp Front-End Development Libraries certificate"
-            />
-            <div class="card-header">
-              <h3 class="card-title">Front-End Development Libraries</h3>
-              <p class="card-badges">
-                <span class="badge badge-certification">freeCodeCamp Certification</span>
-              </p>
-              <p class="card-description">
-                Projects built with React, along with Redux, SASS, Bootstrap, and jQuery.
-              </p>
-            </div>
-            <div class="card-footer">
-              <a
-                href="https://www.freecodecamp.org/certification/ralphhh/front-end-development-libraries"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn-primary btn-lg"
-              >
-                View Certification
-              </a>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- ============================================
-           CONTACT (with sample form)
-           ============================================ -->
-      <section id="contact" class="contact">
-        <h2 class="contact-title">Let's Work Together</h2>
-        <p class="contact-text">
-          I'm currently open to internships, freelance work, and interesting projects. Feel free to
-          reach out.
+        <h3 class="about-subheading">What am I focused on?</h3>
+        <p class="body-text">
+          I'm currently open to internships and freelance work. Outside of that I'm building real projects,
+          sharpening my DSA skills, and learning in public.
         </p>
+        <h3 class="about-subheading">What drives me?</h3>
+        <p class="body-text">
+          I'm drawn to tech because it never stops evolving. The complexity doesn't intimidate me, it's
+          actually what keeps me hooked. I've always been someone who enjoys breaking down hard
+          problems and figuring things out.
+        </p>
+      </div>
+    </section>
 
-        <!-- Sample content — no JS required -->
-        <form id="contact-form" class="contact-form" novalidate>
-        <form id="contact-form" class="contact-form" novalidate>
-          <div class="form-field">
-            <label for="contact-name">Name</label>
-            <input
-              type="text"
-              id="contact-name"
-              name="name"
-              placeholder="Your name"
-              autocomplete="name"
-              required
-            />
-            <p class="form-error" id="name-error" role="alert" hidden></p>
-          </div>
-
-          <div class="form-field">
-            <label for="contact-email">Email</label>
-            <input
-              type="email"
-              id="contact-email"
-              name="email"
-              placeholder="your.email@example.com"
-              autocomplete="email"
-              required
-            />
-            <p class="form-error" id="email-error" role="alert" hidden></p>
-          </div>
-
-          <div class="form-field">
-            <label for="contact-message">Message</label>
-            <textarea
-              id="contact-message"
-              name="message"
-              rows="5"
-              placeholder="Tell me about your project or opportunity"
-              required
-            ></textarea>
-            <p class="form-error" id="message-error" role="alert" hidden></p>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-lg form-submit">
-            <svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-              <path
-                d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"
-              />
-            </svg>
-            Send Message
-          </button>
-
-          <!-- Success message shown after a valid submit -->
-          <p class="form-success" id="form-success" role="status" hidden>
-            Thanks! Your message passed validation. (This demo form does not send email &mdash;
-            please use the email button below.)
+    <!-- ===== SERVICES / FEATURES SECTION ===== -->
+    <section id="services" class="services">
+      <h2 class="section-title">Services</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <h3>Front-end Development</h3>
+          <p class="body-text">
+            Fast, modern interfaces built with HTML, CSS, and JavaScript.
           </p>
-        </form>
-        <!-- END SAMPLE CONTENT -->
-
-        <!-- Original contact action: direct email button -->
-        <div class="contact-actions">
-          <a href="mailto:gianraphaelbaldovino@gmail.com" class="btn btn-primary btn-lg btn-email">
-            <svg class="icon icon-lg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-              <path
-                d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48Zm-96,85.15L52.57,64H203.43ZM98.71,128,40,181.81V74.19Zm11.84,10.85,12,11.05a8,8,0,0,0,10.82,0l12-11.05,58,53.15H52.57ZM157.29,128,216,74.18V181.82Z"
-              />
-            </svg>
-            Send me an email
-          </a>
         </div>
-      </section>
-    </main>
+        <div class="service-card">
+          <h3>Back-end Development</h3>
+          <p class="body-text">
+            Robust server-side applications with Node.js, Python, and databases.
+          </p>
+        </div>
+        <div class="service-card">
+          <h3>Web Design</h3>
+          <p class="body-text">
+            Responsive, user-friendly websites that look great on all devices.
+          </p>
+        </div>
+      </div>
+    </section>
 
-    <!-- ============================================
-         FOOTER
-         ============================================ -->
+    <!-- ===== CONTACT SECTION ===== -->
+    <section id="contact" class="contact">
+      <h2 class="contact-title">Get In Touch</h2>
+      <p class="contact-text">
+        Have a project in mind? Let's work together to create something amazing.
+      </p>
+      <form id="contact-form" class="contact-form" novalidate>
+        <div class="form-field">
+          <label for="contact-name">Name</label>
+          <input type="text" id="contact-name" name="name" placeholder="Your name" required />
+        </div>
+        <div class="form-field">
+          <label for="contact-email">Email</label>
+          <input type="email" id="contact-email" name="email" placeholder="your.email@example.com" required />
+        </div>
+        <div class="form-field">
+          <label for="contact-message">Message</label>
+          <textarea id="contact-message" name="message" rows="5" placeholder="Tell me about your project or opportunity" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg form-submit">Send Message</button>
+      </form>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
     <footer class="site-footer">
       <p class="footer-note">&copy; 2026 Gian Raphael Baldovino</p>
-      <p class="footer-note">Built with HTML, CSS &amp; JavaScript</p>
-      <!-- Social links added so the footer satisfies the assignment's
-           contact requirements (email lives in the contact section). -->
-      <ul class="footer-socials">
-        <li>
-          <a
-            href="https://www.facebook.com/Gian.Raphael.Baldovino"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="social-link"
-            aria-label="Facebook profile"
-          >
-            <svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-              <path
-                d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,191.63V152h24a8,8,0,0,0,0-16H136V112a16,16,0,0,1,16-16h16a8,8,0,0,0,0-16H152a32,32,0,0,0-32,32v24H96a8,8,0,0,0,0,16h24v63.63a88,88,0,1,1,16,0Z"
-              />
-            </svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://www.linkedin.com/in/gian-raphael-654516318/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="social-link"
-            aria-label="LinkedIn profile"
-          >
-            <svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-              <path
-                d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"
-              />
-            </svg>
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/ralph-16"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="social-link"
-            aria-label="GitHub profile"
-          >
-            <svg class="icon" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false">
-              <path
-                d="M208.31,75.68A59.78,59.78,0,0,0,202.93,28,8,8,0,0,0,196,24a59.75,59.75,0,0,0-48,24H124A59.75,59.75,0,0,0,76,24a8,8,0,0,0-6.93,4,59.78,59.78,0,0,0-5.38,47.68A58.14,58.14,0,0,0,56,104v8a56.06,56.06,0,0,0,48.44,55.47A39.8,39.8,0,0,0,96,192v8H72a24,24,0,0,1-24-24A40,40,0,0,0,8,136a8,8,0,0,0,0,16,24,24,0,0,1,24,24,40,40,0,0,0,40,40H96v16a8,8,0,0,0,16,0V192a24,24,0,0,1,48,0v40a8,8,0,0,0,16,0V192a39.8,39.8,0,0,0-8.44-24.53A56.06,56.06,0,0,0,216,112v-8A58.14,58.14,0,0,0,208.31,75.68ZM200,112a40,40,0,0,1-40,40H112a40,40,0,0,1-40-40v-8a41.74,41.74,0,0,1,6.9-22.48A8,8,0,0,0,80,73.83a43.81,43.81,0,0,1,.79-33.58,43.88,43.88,0,0,1,32.32,20.06A8,8,0,0,0,119.82,64h32.35a8,8,0,0,0,6.74-3.69,43.87,43.87,0,0,1,32.32-20.06A43.81,43.81,0,0,1,192,73.83a8.09,8.09,0,0,0,1,7.65A41.72,41.72,0,0,1,200,104Z"
-              />
-            </svg>
-          </a>
-        </li>
-      </ul>
+      <p class="footer-note">Built with HTML &amp; CSS</p>
     </footer>
   </body>
 </html>
