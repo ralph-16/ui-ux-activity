@@ -25,8 +25,8 @@
     <!-- Site styles (all styling lives here — no inline styles in this file) -->
     <link rel="stylesheet" href="style.css" />
 
-    <!-- Site behavior (deferred so the HTML loads first) -->
-    <script src="script.js" defer></script>
+    <!-- Pure HTML/CSS — no JavaScript -->
+
   </head>
 
   <body>
@@ -53,7 +53,7 @@
         <span class="nav-toggle-bar"></span>
       </button>
 
-      <!-- Dark / light mode toggle (behavior in script.js) -->
+      <!-- Theme toggle removed — this is now pure HTML/CSS only -->
       <button
         type="button"
         class="theme-toggle"
@@ -483,9 +483,8 @@
           reach out.
         </p>
 
-        <!-- SAMPLE CONTENT: this form was added for the assignment (the original
-             site only had a mailto button). No data is sent anywhere; the submit
-             handler in script.js only validates and shows a success message. -->
+        <!-- Sample content — no JS required -->
+        <form id="contact-form" class="contact-form" novalidate>
         <form id="contact-form" class="contact-form" novalidate>
           <div class="form-field">
             <label for="contact-name">Name</label>
